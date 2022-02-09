@@ -735,6 +735,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@suin/semantic-release-yarn@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@suin/semantic-release-yarn@npm:1.1.0"
+  dependencies:
+    "@semantic-release/error": ^3.0.0
+    execa: ^5.1.1
+    read-pkg: 5.2.0
+    semver: ^7.3.5
+  checksum: f336b57029531370b6c4aeea6a1787f1f3a4b30180ccc810a1faa1edd0379b305269f49d4f985a3ac6eeec4f4b15c682c9133430e782edaa686b6417b6a9976f
+  languageName: node
+  linkType: hard
+
 "@suin/semantic-release@workspace:.":
   version: 0.0.0-use.local
   resolution: "@suin/semantic-release@workspace:."
@@ -744,8 +756,9 @@ __metadata:
     "@semantic-release/changelog": ^6.0.1
     "@semantic-release/exec": ^6.0.3
     "@semantic-release/git": ^10.0.1
+    "@suin/semantic-release-yarn": ^1.1.0
     "@suin/tsconfig": ^0.0.0
-    "@types/node": ^17.0.15
+    "@types/node": ^17.0.16
     "@types/semantic-release": ^17.2.3
     conventional-changelog-conventionalcommits: ^4.6.3
     cosmiconfig: ^7.0.1
@@ -759,6 +772,7 @@ __metadata:
     "@semantic-release/changelog": ^6.0.1
     "@semantic-release/exec": ^6.0.3
     "@semantic-release/git": ^10.0.1
+    "@suin/semantic-release-yarn": ^1.0.2
     conventional-changelog-conventionalcommits: ^4.6.3
     git-cz: ^4.8.0
     semantic-release: ^19.0.2
@@ -821,10 +835,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.15":
+"@types/node@npm:*":
   version: 17.0.15
   resolution: "@types/node@npm:17.0.15"
   checksum: aa64ecf4fbcf9888e794dcdc20e98c49cdcb102b17e57c44ca56943904732d6cc250e766f8448a3cd71d6a40a4b597bd83c565e5bd9b982733fa3f9813d5c291
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^17.0.16":
+  version: 17.0.16
+  resolution: "@types/node@npm:17.0.16"
+  checksum: 2d452a9e0ee7ec83d447d66dd2baf4dd05ef2fbcda39b06f73d86b36d5150d86c43a733d534d77467e7782104756944d42a35ed4b64113bda341b8334ee4d01d
   languageName: node
   linkType: hard
 
@@ -1730,7 +1751,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:^5.0.0":
+"execa@npm:^5.0.0, execa@npm:^5.1.1":
   version: 5.1.1
   resolution: "execa@npm:5.1.1"
   dependencies:
@@ -3857,7 +3878,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"read-pkg@npm:^5.0.0, read-pkg@npm:^5.2.0":
+"read-pkg@npm:5.2.0, read-pkg@npm:^5.0.0, read-pkg@npm:^5.2.0":
   version: 5.2.0
   resolution: "read-pkg@npm:5.2.0"
   dependencies:

@@ -1,13 +1,14 @@
 import { Type, types } from "./types.js";
 import { Options, PluginSpec } from "semantic-release";
+import type { PluginConfig as YarnOptions } from "@suin/semantic-release-yarn";
 
 const changelogFile = "CHANGELOG.md";
 
 const defineConfig = ({
   types: userDefinedTypes,
   defaultBranch = "main",
-  npm = {},
-  exec = {},
+  packageManager = { use: "yarn" },
+  exec = false,
   ...options
 }: defineConfig.UserOptions = {}): Options => {
   const plugins: Array<PluginSpec> = [
@@ -66,14 +67,27 @@ const defineConfig = ({
     ],
   ];
 
-  if (npm) {
-    plugins.push(
-      /**
-       * semantic-release plugin to publish a npm package.
-       * @see https://github.com/semantic-release/npm
-       */
-      ["@semantic-release/npm", npm]
-    );
+  if (packageManager !== null && typeof packageManager === "object") {
+    switch (packageManager.use) {
+      case "npm":
+        plugins.push(
+          /**
+           * semantic-release plugin to publish a npm package.
+           * @see https://github.com/semantic-release/npm
+           */
+          ["@semantic-release/npm", packageManager.options]
+        );
+        break;
+      case "yarn":
+        plugins.push(
+          /**
+           * semantic-release plugin to publish a npm package with yarn@berry.
+           * @see https://github.com/suin/semantic-release-yarn
+           */
+          ["@suin/semantic-release-yarn", packageManager.options]
+        );
+        break;
+    }
   }
 
   if (exec) {
@@ -124,14 +138,33 @@ declare namespace defineConfig {
     types?: ReadonlyArray<Type>;
 
     defaultBranch?: string;
+
     /**
-     * Options to pass to the @semantic-release/npm plugin. If false, the plugin is not used.
+     * The package manager choice to publish a npm package.
+     *
+     * If `false`, the npm package will not be published.
      */
-    npm?: NpmOptions | false;
+    packageManager?:
+      | {
+          use: "npm";
+          /**
+           * Options to pass to the @semantic-release/npm plugin
+           */
+          options?: NpmOptions;
+        }
+      | {
+          use: "yarn";
+          /**
+           * Options to pass to the @suin/semantic-release-yarn plugin
+           */
+          options?: YarnOptions;
+        }
+      | false;
+
     /**
      * Options to pass to the @semantic-release/exec plugin. If false, the plugin is disabled.
      */
-    exec?: ExecOptions | false;
+    exec?: ExecOptions | boolean;
   }
 
   interface NpmOptions {
