@@ -13,6 +13,7 @@ const defineConfig = (config: CommitlintConfig = {}): CommitlintConfig => {
   }
   return {
     ...config,
+    extends: ["@commitlint/config-conventional"],
     rules: {
       ...rules,
       "subject-min-length": [2, "always", minMessageLength ?? 3],
