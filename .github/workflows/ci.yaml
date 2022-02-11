@@ -1,8 +1,20 @@
 on: [push, pull_request]
 concurrency: ci-${{ github.ref }} # to prevent collisions on the release job
 jobs:
+  skip:
+    name: 🏃 skip
+    runs-on: ubuntu-latest
+    outputs:
+      # Returns 'true' if the whole workflow should be skipped for one of the following reasons:
+      # - Exact same files have been successfully checked in older workflow run
+      should_skip: ${{ steps.check_duplicated_workflow.outputs.should_skip }}
+    steps:
+      - id: check_duplicated_workflow
+        uses: fkirc/skip-duplicate-actions@master
   commitlint:
     name: 🖋 commitlint
+    needs: skip
+    if: needs.skip.outputs.should_skip != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,6 +27,8 @@ jobs:
         run: yarn commitlint --from ${{ github.after }} --verbose
   typecheck:
     name: 🔬 typecheck
+    needs: skip
+    if: needs.skip.outputs.should_skip != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,6 +36,8 @@ jobs:
       - run: yarn typecheck
   lint:
     name: 🧵 lint
+    needs: skip
+    if: needs.skip.outputs.should_skip != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,6 +45,8 @@ jobs:
       - run: yarn lint
   test:
     name: 💯 test
+    needs: skip
+    if: needs.skip.outputs.should_skip != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
