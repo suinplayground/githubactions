@@ -1,4 +1,4 @@
-/.yarn
+.pnp.*
 /node_modules
 *.js
 *.d.ts
