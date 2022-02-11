@@ -46,7 +46,11 @@
     "!testUtils.*"
   ],
   "scripts": {
-    "build": "tsc"
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "lint": "echo nothing to do",
+    "test": "echo nothing to do",
+    "release": "echo nothing to do"
   },
   "dependencies": {
     "@commitlint/types": "^16.0.0",
@@ -85,5 +89,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "yarn@3.1.0"
+  "packageManager": "yarn@3.1.1"
 }
