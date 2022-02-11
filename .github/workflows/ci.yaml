@@ -6,51 +6,57 @@ on:
   workflow_dispatch:
 concurrency: ci-${{ github.ref }} # to prevent collisions on the release job
 jobs:
-  commitlint:
-    name: 🖋 commitlint
+  debug:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # get all git history, commitlint needs full history
-      - uses: ./.github/actions/setup_yarn
-      - if: github.repository == 'suin/semantic-release'
-        run: yarn build
-      - if: github.event_name == 'pull_request'
-        run: yarn commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
-      - if: github.event_name == 'push'
-        run: yarn commitlint --from ${{ github.after }} --verbose
-  typecheck:
-    name: 🔬 typecheck
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup_yarn
-      - run: yarn typecheck
-  lint:
-    name: 🧵 lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup_yarn
-      - run: yarn lint
-  test:
-    name: 💯 test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup_yarn
-      - run: yarn test
-  release:
-    name: 🚀 release
-    needs: [commitlint, typecheck, lint, test]
-    if: github.ref == 'refs/heads/main' # since we only want to release on main branch
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/setup_yarn
-      - run: yarn build
-      - run: yarn release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: machine echo github
+        env: { CONTENT: "${{ toJson(github) }}" }
+        run: "echo $CONTENT"
+#  commitlint:
+#    name: 🖋 commitlint
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          fetch-depth: 0 # get all git history, commitlint needs full history
+#      - uses: ./.github/actions/setup_yarn
+#      - if: github.repository == 'suin/semantic-release'
+#        run: yarn build
+#      - if: github.event_name == 'pull_request'
+#        run: yarn commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+#      - if: github.event_name == 'push'
+#        run: yarn commitlint --from ${{ github.after }} --verbose
+#  typecheck:
+#    name: 🔬 typecheck
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: ./.github/actions/setup_yarn
+#      - run: yarn typecheck
+#  lint:
+#    name: 🧵 lint
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: ./.github/actions/setup_yarn
+#      - run: yarn lint
+#  test:
+#    name: 💯 test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: ./.github/actions/setup_yarn
+#      - run: yarn test
+#  release:
+#    name: 🚀 release
+#    needs: [commitlint, typecheck, lint, test]
+#    if: github.ref == 'refs/heads/main' # since we only want to release on main branch
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: ./.github/actions/setup_yarn
+#      - run: yarn build
+#      - run: yarn release
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
