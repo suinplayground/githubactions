@@ -1,4 +1,4 @@
-name: ci
+name: 🎡 ci
 on:
   push:
     branches: [main]
@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # get all git history, commitlint needs full history
       - uses: ./.github/actions/setup_yarn
       - if: github.repository == 'suin/semantic-release'
         run: yarn build
